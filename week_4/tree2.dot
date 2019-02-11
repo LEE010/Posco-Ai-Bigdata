@@ -1,0 +1,20 @@
+digraph Tree {
+node [shape=box, style="filled", color="black"] ;
+0 [label="PEAK_CALLS_TIME <= 94.2\nsamples = 651\nvalue = [515, 136]\nclass = 0", fillcolor="#e58139bc"] ;
+1 [label="samples = 50\nvalue = [24, 26]\nclass = 1", fillcolor="#399de514"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="DROPPED_CALLS <= 9.5\nsamples = 601\nvalue = [491, 110]\nclass = 0", fillcolor="#e58139c6"] ;
+0 -> 2 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+3 [label="HANDSET_WC95 <= 0.5\nsamples = 550\nvalue = [463, 87]\nclass = 0", fillcolor="#e58139cf"] ;
+2 -> 3 ;
+4 [label="HANDSET_ASAD170 <= 0.5\nsamples = 473\nvalue = [386, 87]\nclass = 0", fillcolor="#e58139c6"] ;
+3 -> 4 ;
+5 [label="samples = 404\nvalue = [317, 87]\nclass = 0", fillcolor="#e58139b9"] ;
+4 -> 5 ;
+6 [label="samples = 69\nvalue = [69, 0]\nclass = 0", fillcolor="#e58139ff"] ;
+4 -> 6 ;
+7 [label="samples = 77\nvalue = [77, 0]\nclass = 0", fillcolor="#e58139ff"] ;
+3 -> 7 ;
+8 [label="samples = 51\nvalue = [28, 23]\nclass = 0", fillcolor="#e581392e"] ;
+2 -> 8 ;
+}
