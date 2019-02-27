@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!-- Page Header -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
+
 <header class="masthead" style="background-image: url('https://cdn.pixabay.com/photo/2016/09/07/13/25/kermit-1651615_960_720.jpg')">
   <div class="overlay"></div>
     <div class="container">
@@ -9,61 +10,18 @@
         <div class="col-lg-8 col-md-10 mx-auto">
           <div class="page-heading">
             <h1>와인 추천 시스템</h1>
-            <span class="subheading">머신러닝 기반의 추천 시스템을 이용해보세요.</span>
+            <span class="subheading">5가지 와인을 추천해 드립니다. 확인해보세요!</span>
           </div>
         </div>
       </div>
     </div>
 </header>
 
-<!-- Main Content -->
 <div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-md-10 mx-auto">
-      <h3>신상정보 입력</h3>
-      <br>
-      <form>
-        <div class="form-row">
-          <div class="form-group col">
-            <label for="genderSelect">성별</label>
-            <select class="form-control" id="genderSelect">
-              <option>Male</option>
-              <option>Female</option>
-            </select>
-          </div>
-          <div class="form-group col">
-            <label for="ageSelect">연령대</label>
-            <select class="form-control" id="ageSelect">
-              <option>20대</option>
-              <option>30대</option>
-              <option>40대</option>
-              <option>50대 이상</option>
-            </select>
-          </div>
-          <div class="form-group col">
-            <label for="jobSelect">직업</label>
-            <select class="form-control" id="jobSelect">
-              <option>직장인</option>
-              <option>학생</option>
-              <option>전문직</option>
-              <option>자영업</option>
-              <option>임시직</option>
-            </select>
-          </div>
-        </div>
-        <br>
-        <div class="text-right">
-          <button type="submit" class="btn btn-primary mb-2 text-right">확인</button>
-        </div>
-      </form>
-
-    </div>
-
-  </div>
-  <hr>
   <h3>추천 와인 리스트</h3>
+  <a href="{%url 'input-info' %}" class="button"></a>
+  {%for wine,taste,words in result%}
   <div class="card-deck">
-
     <div class="card" >
       <div class="row no-gutters">
         <div class="col-md-3">
@@ -72,50 +30,66 @@
 
         <div class="col-md-5">
           <div class="card-body">
-            <h5 class="card-title">까베르네 소비뇽</h5>
-            <p class="card-text">#맛있다 #맛있다 #맛있다 #맛있다 #맛있다 #맛있다 #맛있다 #맛있다 #맛있다 #맛있다</p>
+            <h5 class="card-title">{{wine.name}}</h5>
+
+
+            <p class="card-text text-right">
+              <a class="badge badge-warning"> WS {{wine.score}}</a><br>
+              <strong>price: {{wine.price}}$</strong></p>
+              <p>
+                {%for word in words%}
+                #{{word.word}}
+                {%endfor%}
+              </p>
           </div>
         </div>
 
         <div class="col-md-4">
           <div class="card-body">
-            <h5 class="card-title">와인 맛</h5>
-            <p><canvas id="myChart"></canvas></p>
+            <h5 class="card-title">Taste Chart</h5>
+            <p><canvas id="myChart{{wine.id}}"></canvas></p>
+
+            <script>
+              var ctx = document.getElementById("myChart"+{{wine.id}}).getContext("2d");
+              var chart = new Chart(ctx, {
+                  // The type of chart we want to create
+                  type: 'radar',
+
+                  // The data for our dataset
+                  data: {
+                      labels: ["당도", "알콜", "농도", "과일향", "오크향", "깊이"],
+                      datasets: [{
+                          backgroundColor: 'rgba(255, 99, 132,0.6)',
+                          borderColor: 'rgba(255, 99, 132,0.6)',
+                          data: {{taste}},
+                      }]
+                  },
+                  options:
+                  {
+                    scale:
+                    {
+                      ticks:
+                      {
+                        min:0,max:3,stepSize:1
+                      }
+                    },
+                    legend:
+                    {
+                      display: false,
+                    }
+                  },
+
+              });
+            </script>
           </div>
         </div>
       </div>
     </div>
-
   </div>
-
+  {%endfor%}
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script>
 
-<script>
-  var ctx = document.getElementById("myChart").getContext("2d");
-  var chart = new Chart(ctx, {
-      // The type of chart we want to create
-      type: 'radar',
 
-      // The data for our dataset
-      data: {
-          labels: ["당도", "알콜", "농도", "과일향", "오크향", "깊이"],
-          datasets: [{
-              backgroundColor: 'rgba(255, 99, 132,0.6)',
-              borderColor: 'rgba(255, 99, 132,0.6)',
-              data: [2, 3, 2, 1, 1, 1],
-          }]
-      },
 
-      // Configuration options go here
-      options: {
-        scale: {
-          ticks:{
-            min:0,max:3,stepSize:1}},
-        legend: {
-          display: false,
-        }},
 
-  });
-</script>
 {% endblock %}

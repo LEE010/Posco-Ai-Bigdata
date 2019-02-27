@@ -23,4 +23,7 @@ urlpatterns = [
     path('', home.views.index, name='home'),
     path('recommend/', home.views.recommend, name='recommend'),
     path('quality/', home.views.quality, name='quality'),
+    path('upload-wine/',home.views.wine_upload, name='wine_upload'),
+    path('input-info/',home.views.input_info, name='input-info'),
+    path('upload-word/',home.views.word_upload, name='word_upload'),
 ]
