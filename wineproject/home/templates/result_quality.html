@@ -21,10 +21,16 @@
   <div class="row">
     <div class="col-lg-8 col-md-10 mx-auto">
       <h1>와인 품질 평가 결과</h1>
-      <h2>{{Y}}</h2>
-      {%for k,v in X.items%}
-      {{k}}:{{v}} <br>
-      {%endfor%}
+      <div class="text-right">
+        <h2>{{Y}}등급</h2>
+      </div>
+      <hr>
+      <h3>주요 성분</h3>
+      <p>
+        {%for k,v in X.items%}
+          {{k}}:{{v}} <br>
+        {%endfor%}
+      </p>
     </div>
   </div>
 </div>

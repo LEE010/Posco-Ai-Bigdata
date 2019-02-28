@@ -15,6 +15,15 @@ TASTE_DATA = {'A':[2,3,2,3,3,3],'B':[3,1,3,2,1,3],'C':[3,1,3,2,2,2],
               'D':[3,3,3,2,1,1],'E':[3,3,2,1,2,1],'F':[2,3,2,2,2,2],
               'G':[1,3,3,3,2,2],'H':[2,3,2,2,3,3]}
 
+ANJU = {'A' : ['소고기 토마토 스파게티', '과일볼 샐러드', '육회', '육포', '스테이크'],
+        'B' : ['요거트 샐러드', '과일볼 샐러드', '흰살 생선 구이', '참치 샐러드', '해물 치즈그라탕'],
+        'C' : ['계란 치즈 토스트', '과일볼 샐러드', '오리 훈제', '불고기', '베이컨 말이'],
+        'D' : ['케이준 치킨 샐러드', '과일볼 샐러드', '아이스크림', '견과류', '브루스케타'],
+        'E' : ['까르보나라', '과일볼 샐러드', '살라미', '핫도그', '피자'],
+        'F' : ['까나페','과일볼 샐러드', '치즈 케익', '초콜릿', '나초'],
+        'G' : ['연어 샐러드', '과일볼 샐러드', '참치', '치즈', '카프레제 샐러드'],
+        'H' : ['감바스 알아히요, 과일볼 샐러드', '홍합 스튜', '메로 구이', '게살 스프']}
+
 def index(request):
     return render(request,'index.html')
 
@@ -36,12 +45,13 @@ def recommend(request):
     res_list = random.sample(wine_list, 5)
     wine_taste = [TASTE_DATA[wine.cat] for wine in res_list]
     wine_words = [random.sample(list(WineWord.objects.filter(type=wine.cat)), 10) for wine in res_list]
+    anju = [random.sample(ANJU[wine.cat],2) for wine in res_list]
 
     if len(wine_cats) == 0:
         return render(request,'recommend.html')
     else:
         # return render(request,'recommend.html',{'wine_list': res_list,'wine_types':wine_types})
-        return render(request,'recommend.html',{'result':zip(res_list,wine_taste,wine_words) })
+        return render(request,'recommend.html',{'result':zip(res_list,wine_taste,wine_words,anju) })
 
 def input_quality(request):
     return render(request,'input_quality.html')

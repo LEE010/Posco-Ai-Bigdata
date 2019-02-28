@@ -7,7 +7,7 @@
 body {
   font-size: 20px;
   color: #212529;
-  font-family: 'Lora', 'Times New Roman', serif;
+  font-family: 'Lora', 'Open Sans', serif;
 }
 
 p {
@@ -258,7 +258,7 @@ header.masthead .post-heading .meta {
   font-size: 20px;
   font-weight: 300;
   font-style: italic;
-  font-family: 'Lora', 'Times New Roman', serif;
+  font-family: 'Lora', 'Open Sans', serif;
 }
 
 header.masthead .post-heading .meta a {
@@ -337,13 +337,13 @@ header.masthead .post-heading .meta a {
   background: none;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
-  font-family: 'Lora', 'Times New Roman', serif;
+  font-family: 'Lora', 'Open Sans', serif;
 }
 
 .floating-label-form-group input::-webkit-input-placeholder,
 .floating-label-form-group textarea::-webkit-input-placeholder {
   color: #868e96;
-  font-family: 'Lora', 'Times New Roman', serif;
+  font-family: 'Lora', 'Open Sans', serif;
 }
 
 .floating-label-form-group label {

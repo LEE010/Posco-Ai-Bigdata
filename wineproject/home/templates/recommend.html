@@ -20,7 +20,7 @@
 <div class="container">
   <h3>추천 와인 리스트</h3>
   <a href="{%url 'input-info' %}" class="button"></a>
-  {%for wine,taste,words in result%}
+  {%for wine,taste,words,anju in result%}
   <div class="card-deck">
     <div class="card" >
       <div class="row no-gutters">
@@ -40,6 +40,13 @@
                 {%for word in words%}
                 #{{word.word}}
                 {%endfor%}
+              </p>
+              <p>
+                추천 안주:
+                {%for food in anju%}
+                {{food}},
+                {%endfor%}
+                등
               </p>
           </div>
         </div>
