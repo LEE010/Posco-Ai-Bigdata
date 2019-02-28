@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import permission_required
 from .models import WineInfo,WineWord
 import random
 from sklearn.externals import joblib
+import pandas as pd
 
 WINE_AGE = {'20':'E','30':'A','40':'D','50':'F'}
 WINE_GENDER = {'male':'F','female':'B'}
@@ -42,46 +43,37 @@ def recommend(request):
         # return render(request,'recommend.html',{'wine_list': res_list,'wine_types':wine_types})
         return render(request,'recommend.html',{'result':zip(res_list,wine_taste,wine_words) })
 
-def quality(request):
+def input_quality(request):
+    return render(request,'input_quality.html')
+
+def result_quality(request):
     spec = ['fixed_acidity','volatile_acidity','citric_acid','residual_sugar',
              'chlorides','free_sulfur_dioxide','total_sulfur_dioxide','density',
              'pH','sulphates','alcohol','quality_category']
 
-    # Save to file in the current working directory
-    # joblib_file = "r_joblib_model.pkl"
-    # joblib.dump(r_pickle_model, joblib_file)
+    if request.GET['winetype'] == 'red':
+        joblib_file = "static/r_joblib_model.pkl"
+    else:
+        joblib_file = "static/w_joblib_model.pkl"
 
-    # Load from file
-    r_joblib_model = joblib.load("r_joblib_model.pkl")
+    joblib_model = joblib.load(joblib_file)
+    # print(request.GET)
+    # for i in spec:
+    #     print(request.GET[i])
 
-    r_train = {"fixed_acidity": [6.3] ,"volatile_acidity":[0.39],"citric_acid":[0.16],"residual_sugar":[1.4],"chlorides":[0.08],"free_sulfur_dioxide":[11],"total_sulfur_dioxide":[23],"density":[0.9955],"pH":[3.34],"sulphates":[0.56],"alcohol":[9.3]}
-    type(r_train)
-    r_train = pd.DataFrame(r_train)
+    X = {"fixed_acidity": float(request.GET['fixed_acidity']) ,"volatile_acidity":float(request.GET['volatile_acidity']),
+         "citric_acid":float(request.GET['citric_acid']),"residual_sugar":float(request.GET['residual_sugar']),
+         "chlorides":float(request.GET['chlorides']),"free_sulfur_dioxide":float(request.GET['free_sulfur_dioxide']),
+         "total_sulfur_dioxide":float(request.GET['total_sulfur_dioxide']),"density":float(request.GET['density']),
+         "pH":float(request.GET['pH']),"sulphates":float(request.GET['sulphates']),"alcohol":float(request.GET['alcohol'])}
 
-    # Calculate the accuracy and predictions
-    # score = r_joblib_model.score(r_test_x_robust, r_test_y)
-    # print("Test score: {0:.2f} %".format(100 * score))
-    # Ypredict = r_joblib_model.predict(r_tr_x_robust)
-    Y_predict = r_joblib_model.predict(r_train)
-    Y_predict
-    # Save to file in the current working directory
-    # joblib_file = "w_joblib_model.pkl"
-    # joblib.dump(w_pickle_model, joblib_file)
+    df_X = pd.DataFrame.from_dict([X])
 
-    # Load from file
-    w_joblib_model = joblib.load("w_joblib_model.pkl")
+    Y_predict = joblib_model.predict(df_X)
 
-    w_train = {"fixed_acidity": [7] ,"volatile_acidity":[0.27],"citric_acid":[0.36],"residual_sugar":[20.7],"chlorides":[0.045],"free_sulfur_dioxide":[45],"total_sulfur_dioxide":[170],"density":[1.001],"pH":[3],"sulphates":[0.45],"alcohol":[8.8]}
-    type(w_train)
-    w_train = pd.DataFrame(w_train)
+    result = {0:'LOW',1:'MID',2:"HIGH"}
 
-    # Calculate the accuracy and predictions
-    # score = w_joblib_model.score(w_test_x_robust, w_test_y)
-    # print("Test score: {0:.2f} %".format(100 * score))
-    # Ypredict = w_joblib_model.predict(w_test_x_robust)
-    Y_predict = w_joblib_model.predict(w_train)
-    Y_predict
-    return render(request,'quality.html')
+    return render(request,'result_quality.html',{'Y':result[Y_predict[0]],'X':X})
 
 @permission_required('admin.can_add_log_entry')
 def wine_upload(request):
