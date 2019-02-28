@@ -2,6 +2,13 @@
 
 {% block content %}
 <!-- Page Header -->
+
+{% for message in messages %}
+<script>
+    alert('{{ message }}');
+</script>
+{% endfor %}
+
 <header class="masthead" style="background-image: url('https://cdn.pixabay.com/photo/2017/01/04/13/57/wine-1952051_960_720.jpg')">
   <div class="overlay"></div>
     <div class="container">

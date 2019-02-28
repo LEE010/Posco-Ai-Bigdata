@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+{% for message in messages %}
+<script>
+    alert('{{ message }}');
+</script>
+{% endfor %}
 <!-- Page Header -->
 <header class="masthead" style="background-image: url('https://cdn.pixabay.com/photo/2015/11/30/23/32/champagner-1071356_960_720.jpg')">
   <div class="overlay"></div>

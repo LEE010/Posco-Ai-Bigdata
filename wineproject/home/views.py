@@ -36,6 +36,7 @@ def recommend(request):
         gender = WINE_GENDER[request.GET['genderSelect']]
         job = WINE_JOB[request.GET['jobSelect']]
     except:
+        messages.info(request, '값을 정확히 입력하세요.')
         return redirect('input-info')
 
     wine_cats = set([age,gender,job])
@@ -70,6 +71,7 @@ def result_quality(request):
         else :
             joblib_file = "static/w_joblib_model.pkl"
     except:
+        messages.info(request, '값을 정확히 입력하세요.')
         return redirect('input-quality')
 
     joblib_model = joblib.load(joblib_file)
