@@ -31,9 +31,13 @@ def input_info(request):
     return render(request,'input_info.html')
 
 def recommend(request):
-    age = WINE_AGE[request.GET['ageSelect']]
-    gender = WINE_GENDER[request.GET['genderSelect']]
-    job = WINE_JOB[request.GET['jobSelect']]
+    try:
+        age = WINE_AGE[request.GET['ageSelect']]
+        gender = WINE_GENDER[request.GET['genderSelect']]
+        job = WINE_JOB[request.GET['jobSelect']]
+    except:
+        messages.info(request, '값을 정확히 입력하세요.')
+        return redirect('input-info')
 
     wine_cats = set([age,gender,job])
 
@@ -61,10 +65,14 @@ def result_quality(request):
              'chlorides','free_sulfur_dioxide','total_sulfur_dioxide','density',
              'pH','sulphates','alcohol','quality_category']
 
-    if request.GET['winetype'] == 'red':
-        joblib_file = "static/r_joblib_model.pkl"
-    else:
-        joblib_file = "static/w_joblib_model.pkl"
+    try:
+        if request.GET['winetype'] == 'red':
+            joblib_file = "static/r_joblib_model.pkl"
+        else :
+            joblib_file = "static/w_joblib_model.pkl"
+    except:
+        messages.info(request, '값을 정확히 입력하세요.')
+        return redirect('input-quality')
 
     joblib_model = joblib.load(joblib_file)
     # print(request.GET)
